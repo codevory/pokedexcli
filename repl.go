@@ -2,10 +2,12 @@
 package main
 
 import (
-	"strings"
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
+
+	"github.com/codevory/pokedexcli/pokeapi"
 )
 
 func cleanInput(text string) []string {
@@ -24,24 +26,18 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name string 
 	description string 
-	callback func() error
+	callback func(config *config) error
 }
 
 
-func startRepl(){
+type config struct{
+	cliCommandMap map[string]cliCommand
+	pokeapiClient pokeapi.Client
+	NextLocationsURL *string 
+	PrevLocationsURL *string 
+}
 
-	cliCommandMap := map[string]cliCommand {
-		"exit": {
-			name: "exit",
-			description: "Exit the Pokedex",
-			callback: commandExit,
-		},
-		"help": {
-			name: "help",
-			description: "get info about pokedexcli",
-			callback: commandHelp,
-		},
-	}
+func startRepl(cfg *config){
 
   scanner := bufio.NewScanner(os.Stdin)
 
@@ -57,8 +53,10 @@ func startRepl(){
 
 	words := cleanInput(text)
 	for _,keyword := range words {
-			if _,ok := cliCommandMap[keyword]; ok {
-				cliCommandMap[keyword].callback()
+			if _,ok := cfg.cliCommandMap[keyword]; ok {
+				if err := cfg.cliCommandMap[keyword].callback(cfg); err != nil {
+					fmt.Printf("Error: %v\n", err)
+				}
 			} else {
 				fmt.Print("Unknown command")
 			}
@@ -67,6 +65,28 @@ func startRepl(){
   }
 }
 
-func main(){
-	startRepl()
+
+func getCommands()map[string]cliCommand {
+	return map[string]cliCommand{
+      "help": {
+	    	name: "help",
+	    	description: "get info about pokedexcli",
+	    	callback: commandHelp,
+	    },
+		"map": {
+			name: "map",
+			description: "gets list of 20 pokemon locations",
+			callback: commandMapf,
+		},
+		"mapb": {
+			name: "map back",
+			description: "gets list of 20 previous locations",
+			callback: commandMapB,
+		},
+		"exit": {
+		  name: "exit",
+		  description: "Exit the Pokedex",
+		  callback: commandExit,
+	    },
+	}
 }
