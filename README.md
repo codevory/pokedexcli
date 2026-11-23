@@ -32,6 +32,7 @@ At the `Pokedex >` prompt:
 | `help` | Show available commands |
 | `map` | Show the next page of location areas |
 | `mapb` | Show the previous page of location areas |
+| `explore <area-name>` | Show the Pokemon encountered in a location area |
 | `exit` | Exit the Pokedex |
 
 Example:
@@ -42,12 +43,22 @@ canalave-city-area
 ...
 Pokedex > mapb
 ...
+Pokedex > explore canalave-city-area
+Exploring canalave-city-area...
+Found Pokemon:
+- tentacruel
+- starmie
+...
 Pokedex > exit
 Closing the Pokedex... Goodbye!
 ```
 
 The `map` and `mapb` commands request pages from PokeAPI and keep track of
 the next and previous page URLs during the current session.
+
+The `explore` command requests the Pokemon encounters for a location area.
+Area names can be copied from the output of `map` or `mapb`. PokeAPI responses
+are cached in memory for five minutes.
 
 ## Test
 
@@ -64,5 +75,7 @@ go test ./...
 ├── main.go                 # Application entry point
 ├── repl.go                 # Interactive command loop
 ├── command_*.go            # CLI command handlers
-└── pokeapi/                # PokeAPI client and response types
+├── pokeapi/                # PokeAPI client and response types
+├── pokecache/              # In-memory response cache
+└── pokedexcli              # Prebuilt executable
 ```
