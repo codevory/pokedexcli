@@ -1,4 +1,4 @@
-package main 
+package main
 
 import (
 	"time"
@@ -6,8 +6,8 @@ import (
 	"github.com/codevory/pokedexcli/pokeapi"
 )
 
-func main(){
-	pokeClient := pokeapi.NewClient(5 * time.Second)
+func main() {
+	pokeClient := pokeapi.NewClient(5*time.Second, 5*time.Minute)
 	cfg := &config{
 		cliCommandMap: getCommands(),
 		pokeapiClient: pokeClient,
