@@ -1,8 +1,6 @@
 package main 
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func commandHelp(cfg *config) error {
 	fmt.Printf("Welcome to the Pokedex! \n")
