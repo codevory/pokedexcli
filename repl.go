@@ -33,7 +33,7 @@ type config struct {
 	pokeapiClient    pokeapi.Client
 	NextLocationsURL *string
 	PrevLocationsURL *string
-	areaName         string
+	entity           string
 	cache            *pokecache.Cache
 }
 
@@ -52,9 +52,14 @@ func startRepl(cfg *config) {
 		text := scanner.Text()
 
 		words := cleanInput(text)
+		if len(words) == 0 {
+			continue
+		}
+
 		var keyword string = words[0]
+		cfg.entity = ""
 		if len(words) >= 2 {
-			cfg.areaName = words[1]
+			cfg.entity = words[1]
 		}
 
 		if _, ok := cfg.cliCommandMap[keyword]; ok {
@@ -89,6 +94,16 @@ func getCommands() map[string]cliCommand {
 			name:        "explore",
 			description: "explore the available pokemons available in area",
 			callback:    explore,
+		},
+		"catch": {
+			name:        "catch <Pokemon name>",
+			description: "tries to catch Pokemon on the basis of it's base_experience",
+			callback:    catch,
+		},
+		"pokedex": {
+          name: "pokedex",
+		  description: "List the Name of all the pokemons caught by you",
+		  callback: pokedex,
 		},
 		"exit": {
 			name:        "exit",

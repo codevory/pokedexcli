@@ -18,3 +18,9 @@ type pokemonShallowNames struct {
 		} `json:"pokemon"`
 	} `json:"pokemon_encounters"`
 }
+
+
+type PokemonCaught struct {
+ Name string `json:"name"`
+ Experience int `json:"base_experience"`
+}
