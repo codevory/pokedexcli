@@ -33,6 +33,8 @@ At the `Pokedex >` prompt:
 | `map` | Show the next page of location areas |
 | `mapb` | Show the previous page of location areas |
 | `explore <area-name>` | Show the Pokemon encountered in a location area |
+| `catch <pokemon-name>` | Try to catch a Pokemon |
+| `pokedex` | List Pokemon caught during this session |
 | `exit` | Exit the Pokedex |
 
 Example:
@@ -49,6 +51,12 @@ Found Pokemon:
 - tentacruel
 - starmie
 ...
+Pokedex > catch pikachu
+Throwing a Pokeball at pikachu...
+pikachu was caught!
+Pokedex > pokedex
+Your Pokedex:
+pikachu
 Pokedex > exit
 Closing the Pokedex... Goodbye!
 ```
@@ -59,6 +67,10 @@ the next and previous page URLs during the current session.
 The `explore` command requests the Pokemon encounters for a location area.
 Area names can be copied from the output of `map` or `mapb`. PokeAPI responses
 are cached in memory for five minutes.
+
+The `catch` command attempts to catch a Pokemon by name. Catch probability is
+based on its base experience, so a Pokemon may escape. Pokemon caught this way
+are kept in memory for the current session; use `pokedex` to list them.
 
 ## Test
 
