@@ -13,7 +13,7 @@ func catch(cfg *config) error {
 
 	pokemon, err,statusCode := cfg.pokeapiClient.CatchPokemon(context.Background(), cfg.entity)
 	if err != nil && statusCode == 404 {
-		return fmt.Errorf("i can't see%s",cfg.entity)
+		return fmt.Errorf("i can't see %s",cfg.entity)
 	} else if err != nil {
 		return err
 	}
